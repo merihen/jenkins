@@ -17,33 +17,13 @@ pipeline {
         stage ('Compile Stage') {
 
             steps {
-                withMaven(maven : 'maven3.6.3') {
+                    echo 'building .. '
+                    sh "cd complete"
                     sh 'mvn clean install'
-                }
-            }
-        post {
-            always {
-               archiveArtifacts artifacts: 'target/**/*'
+                    echo 'build complete'
             }
         }
-        }
-
-        stage ('Testing Stage') {
-
-            steps {
-                withMaven(maven : 'maven3.6.3') {
-                    sh 'mvn test'
-                }
-            }
-           
-        }
-        
-        stage('Code Quality Analysis') {
-            steps {
-               sh " mvn sonar:sonar -Dsonar.host.url=http://3.227.75.131/:9000"
-            }
-        }
-        
+ 
         stage(' Build Docker image') {
             steps {
                 echo 'Building....'
