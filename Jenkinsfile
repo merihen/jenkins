@@ -27,6 +27,7 @@ pipeline {
         stage(' Build Docker image') {
             steps {
                 echo 'Building....'
+                sh 'mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)'
                 sh "docker build -t imagedev:${commit_id} ."
                 echo 'build complete'
             }
